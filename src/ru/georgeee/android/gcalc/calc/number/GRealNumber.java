@@ -50,4 +50,6 @@ public abstract class GRealNumber extends GNumber {
     public abstract GRealNumber exp();
 
     public abstract GRealNumber sqrt();
+
+    public abstract GRealNumber multiplyByTenPower(GRealNumber argument);
 }

@@ -180,6 +180,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
             else if(mode == REAL_MODE)
                 result = Evaluator.evaluateDouble(expression);
         }catch (Exception ex){
+            ex.printStackTrace();
         }
         if(result != null) evaluatedExpressions.addLast(expression);
         return result;

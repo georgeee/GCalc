@@ -20,17 +20,18 @@ import ru.georgeee.android.gcalc.calc.number.GNumber;
  */
 public class Tokens {
     public static final int BRACKET_LEVEL = 0;
-    public static final int CONST_LEVEL = 1;
-    public static final int FUNCTION_LEVEL = 2;
-    public static final int FACTORIAL_LEVEL = 3;
-    public static final int POWER_LEVEL = 4;
-    public static final int MULTIPLY_LEVEL = 5;
-    public static final int NOT_LEVEL = 6;
-    public static final int ADD_LEVEL = 7;
-    public static final int SHIFT_LEVEL = 8;
-    public static final int AND_LEVEL = 9;
-    public static final int XOR_LEVEL = 10;
-    public static final int OR_LEVEL = 11;
+    public static final int CONST_LEVEL = BRACKET_LEVEL+1;
+    public static final int MULTIPLY_BY_TEN_POWER_LEVEL = CONST_LEVEL+1;
+    public static final int FUNCTION_LEVEL = MULTIPLY_BY_TEN_POWER_LEVEL+1;
+    public static final int FACTORIAL_LEVEL = FUNCTION_LEVEL+1;
+    public static final int POWER_LEVEL = FACTORIAL_LEVEL+1;
+    public static final int MULTIPLY_LEVEL = POWER_LEVEL+1;
+    public static final int NOT_LEVEL = MULTIPLY_LEVEL+1;
+    public static final int ADD_LEVEL = NOT_LEVEL+1;
+    public static final int SHIFT_LEVEL = ADD_LEVEL+1;
+    public static final int AND_LEVEL = SHIFT_LEVEL+1;
+    public static final int XOR_LEVEL = AND_LEVEL+1;
+    public static final int OR_LEVEL = XOR_LEVEL+1;
 
     public static final AhoTokenType MULTIPLY_TOKEN_TYPE = new AhoBothAssocTokenType() {
         @Override
@@ -589,6 +590,23 @@ public class Tokens {
                 new ClosingBracketTokenType(),
 
             /*Consts*/
+                //6E-15
+                new AhoBothAssocTokenType() {
+                    @Override
+                    public String getMatchString() {
+                        return "E";
+                    }
+
+                    @Override
+                    protected Expression getExpressionImpl(Expression leftOperand, Expression rightOperand) {
+                        return new MultiplyByTenPower(leftOperand,rightOperand);
+                    }
+
+                    @Override
+                    public int getPriority() {
+                        return MULTIPLY_BY_TEN_POWER_LEVEL;
+                    }
+                },
                 //Pi
                 new AhoNoAssocTokenType() {
                     @Override

@@ -69,6 +69,11 @@ public class GDouble extends GRealNumber {
     }
 
     @Override
+    public GRealNumber multiplyByTenPower(GRealNumber argument) {
+        return new GDouble(value*Math.pow(10, getGDouble(argument).getValue()));
+    }
+
+    @Override
     public GRealNumber sqrt() {
         return new GDouble(Math.sqrt(value));
     }
